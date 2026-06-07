@@ -25,6 +25,12 @@ Once you have the repo locally, you can start your own development.
 5. Commit  your changes ```git commit -m "A short summary of what you did"```
 6. Push your changes ```git push origin {branch name}```
 
+After your changes are merged, go back to main branch and pull changes again
+```sh
+git checkout main
+git pull origin main
+```
+
 That's all you have to do really
 
 ---

@@ -18,12 +18,12 @@ git clone {repo ssh link} && cd cs6620_project
 ```
 
 Once you have the repo locally, you can start your own development.
-1. Pull all recent changes ```sh git pull origin main```
-2. Make your branch ```sh git checkout -b {branch name}```
+1. Pull all recent changes ```git pull origin main```
+2. Make your branch ```git checkout -b {branch name}```
 3. Make your code changes
-4. Add your changes ```sh git add {the files you made changes to}```
-5. Commit  your changes ```sh git commit -m "A short summary of what you did"```
-6. Push your changes ```sh git push origin {branch name}```
+4. Add your changes ```git add {the files you made changes to}```
+5. Commit  your changes ```git commit -m "A short summary of what you did"```
+6. Push your changes ```git push origin {branch name}```
 
 That's all you have to do really
 

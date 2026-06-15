@@ -3,14 +3,35 @@
 
 ## Project Overview
 
-This semester, you will design and deploy a cloud-based security platform on Amazon Web Services (AWS). You are provided with two foundational security tools:
+We are making an app that people can use as a CI/CD tool. By adding this app into their github/worflows/ yaml file, they can test their code for security risks. The app has a pentest and a sast test. Each will be deployed on their own separate EC2 instances using terraform. There will be a Lambda function that connects Github to these tests. It will receive the payload from github and send it to the corresponding app (pentest and/or sast). Once the tests get their resulst, it will send it back to a Lambda that will format and send the results back to github.
 
 - **SAST Scanner**: A Static Application Security Testing tool that analyzes source code for vulnerabilities
 - **API Penetration Tester**: A dynamic testing tool that probes running APIs for security issues
 
-**Your challenge:** Design a cloud architecture that deploys these tools (one or both) in a way that solves a real problem. You will propose your own architecture, choose appropriate AWS services, and justify your design decisions.
 
-This is not a "follow the recipe" project. You will make architectural decisions, justify your technology choices, and build a system that demonstrates your understanding of cloud computing principles.
+## Github workflow
+
+A basic workflow for this is to make a new branch, make your changes, then commit and push them back to your branch.
+First clone the repo:
+```sh
+git clone {repo ssh link} && cd cs6620_project
+```
+
+Once you have the repo locally, you can start your own development.
+1. Pull all recent changes ```git pull origin main```
+2. Make your branch ```git checkout -b {branch name}```
+3. Make your code changes
+4. Add your changes ```git add {the files you made changes to}```
+5. Commit  your changes ```git commit -m "A short summary of what you did"```
+6. Push your changes ```git push origin {branch name}```
+
+After your changes are merged, go back to main branch and pull changes again
+```sh
+git checkout main
+git pull origin main
+```
+
+That's all you have to do really
 
 ---
 

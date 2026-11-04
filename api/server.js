@@ -1,4 +1,4 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, DescribeTableCommand } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
   PutCommand,
@@ -14,19 +14,12 @@ const scansTable = process.env.SCANS_TABLE || 'scans';
 const ownerIndex = process.env.OWNER_INDEX || 'ownerId-index';
 
 const dynamoConfig = {
-  region: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1'
+  region: process.env.AWS_REGION || 'us-east-1'
 };
 
-// Checks to make sure we are running in a local environment and sets the DynamoDB endpoint accordingly.
-if (process.env.DYNAMODB_ENDPOINT) {
-  dynamoConfig.endpoint = process.env.DYNAMODB_ENDPOINT;
-  dynamoConfig.credentials = {
-    accessKeyId: 'local',
-    secretAccessKey: 'local'
-  };
-}
+const dynamoClient = new DynamoDBClient(dynamoConfig);
 
-const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient(dynamoConfig), {
+const dynamo = DynamoDBDocumentClient.from(dynamoClient, {
   marshallOptions: { removeUndefinedValues: true }
 });
 
@@ -139,6 +132,20 @@ app.get('/targets/:id/scans', async (req, res) => {
     return res.status(500).json({ error: 'Could not retrieve scan history.' });
   }
 });
+
+// Verify AWS credentials and that the tables exist before accepting requests.
+async function verifyDynamo() {
+  for (const TableName of [targetsTable, scansTable]) {
+    await dynamoClient.send(new DescribeTableCommand({ TableName }));
+  }
+}
+
+try {
+  await verifyDynamo(); // Verify that the DynamoDB tables exist and are accessible.
+} catch (error) {
+  console.error(`Could not connect to DynamoDB (region ${dynamoConfig.region}):`, error);
+  process.exit(1);
+}
 
 app.listen(port, () => {
   console.log(`Pentest scheduling API listening on port ${port}`);

@@ -21,3 +21,9 @@ Prereqs:
             curl -i -X POST http://localhost:3001/targets \
             -H 'Content-Type: application/json' \
             -d '{"url":"https://api.example.com/users","frequency":"daily","email":"dev@example.com"}'
+
+3. React Website
+    - Make sure the target api is running too.
+    - `cd cs6620/web`
+    - `npm install` if first time or pulled changes
+    - `npm run dev` runs app
